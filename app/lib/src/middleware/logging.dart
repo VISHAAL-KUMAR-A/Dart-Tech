@@ -5,10 +5,14 @@ Middleware logRequestsCustom() {
   return (Handler innerHandler) {
     return (Request request) async {
       final start = DateTime.now().microsecondsSinceEpoch;
-      final response = await innerHandler(request).catchError((e, st) {
+      Response response;
+      try {
+        response = await innerHandler(request);
+      } catch (e) {
         final body = jsonEncode({'error': e.toString()});
-        return Response.internalServerError(body: body, headers: {'content-type': 'application/json'});
-      });
+        response = Response.internalServerError(
+            body: body, headers: {'content-type': 'application/json'});
+      }
       final end = DateTime.now().microsecondsSinceEpoch;
       final durationMs = ((end - start) / 1000).toStringAsFixed(2);
 
