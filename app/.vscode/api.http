@@ -1,0 +1,15 @@
+### Health
+GET http://localhost:8080/health
+
+### List notes
+GET http://localhost:8080/v1/notes
+
+### Create note
+POST http://localhost:8080/v1/notes
+Content-Type: application/json
+X-API-Key: key_standard
+
+{
+  "title": "First",
+  "content": "Hello"
+}
